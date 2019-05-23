@@ -1,19 +1,23 @@
 const http = require('http');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-// express docs
-// app.use(path, callback) เพิ่ม path เข้าไป เป็น relative path
-app.use('/', (req, res, next) => {
-  console.log('Alway run');
-  next();
-});
+// body parser อ่านค่า body ที่มากับ request POST
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/add-product', (req, res, next) => {
-  console.log('In another middleware');
   // ไม่ต้องส่ง content-type เอง express ช่วยทำให้ clean code มากขึ้น
-  res.send('<h1>The "Add Product" Page</h1>');
+  res.send(
+    '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>'
+  );
+});
+
+app.use('/product', (req, res, next) => {
+  // ดู body ที่ส่งมาจาก post ใช้ express จะ undefined ต้อง install body-parser
+  console.log(req.body);
+  res.redirect('/');
 });
 
 app.use('/', (req, res, next) => {
