@@ -31,8 +31,8 @@ const requestHandler = (req, res) => {
       body.push(chunk);
     });
   
-    // เมื่อรับ  request เสร็จแล้ว
-    req.on('end', () => {
+    // เมื่อรับ  request เสร็จแล้ว จบกระบวนการ
+    return req.on('end', () => {
       // แปลง body รวมจากก้อนเป็นอันเดียว แล้วแปลงเป็น plain text
       const parseBody = Buffer.concat(body).toString();
   
@@ -41,13 +41,13 @@ const requestHandler = (req, res) => {
   
       // write input to file
       const message = parseBody.split('=')[1];
-      fs.writeFileSync('message.txt', message);
+      fs.writeFileSync('message.txt', message, err => {
+        // redirect
+        res.statusCode = 302;
+        res.setHeader('Location', '/');
+        return res.end();
+      });
     });
-    
-    // redirect
-    res.statusCode = 302;
-    res.setHeader('Location', '/');
-    return res.end();
   }
   
   // response
