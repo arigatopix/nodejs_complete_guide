@@ -44,6 +44,7 @@ const requestHandler = (req, res) => {
       fs.writeFileSync('message.txt', message);
     });
     
+    // redirect
     res.statusCode = 302;
     res.setHeader('Location', '/');
     return res.end();
