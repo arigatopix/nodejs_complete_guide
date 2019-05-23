@@ -3,14 +3,15 @@ const express = require('express');
 
 const app = express();
 
-// apply middleware
-app.use((req, res, next) => {
-  console.log('In the middleware');
-  // Allow the request to continue the next middleware in line
-  next();
+// express docs
+// app.use(path, callback) เพิ่ม path เข้าไป เป็น relative path
+app.use('/add-product',(req, res, next) => {
+  console.log('In another middleware');
+  // ไม่ต้องส่ง content-type เอง express ช่วยทำให้ clean code มากขึ้น
+  res.send('<h1>The "Add Product" Page</h1>')
 });
 
-app.use((req, res, next) => {
+app.use('/',(req, res, next) => {
   console.log('In another middleware');
   // ไม่ต้องส่ง content-type เอง express ช่วยทำให้ clean code มากขึ้น
   res.send('<h1>Hello from Express.js</h1>')
