@@ -1,10 +1,20 @@
 const http = require('http');
-// import module
-const route = require('./route');
+const express = require('express');
 
-// * create server
-// เรียกใช้ module route
-const server = http.createServer(route.requestHandler);
+const app = express();
 
-// * listen server
-server.listen(3000);
+// apply middleware
+app.use((req, res, next) => {
+  console.log('In the middleware');
+  // Allow the request to continue the next middleware in line
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log('In another middleware');
+  // ไม่ต้องส่ง content-type เอง express ช่วยทำให้ clean code มากขึ้น
+  res.send('<h1>Hello from Express.js</h1>')
+});
+
+// * listen server ใช้ได้เพราะ express serve function ให้
+app.listen(3000);

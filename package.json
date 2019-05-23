@@ -19,5 +19,8 @@
   "homepage": "https://github.com/arigatopix/nodejs_complete_guide#readme",
   "devDependencies": {
     "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "express": "^4.17.0"
   }
 }
